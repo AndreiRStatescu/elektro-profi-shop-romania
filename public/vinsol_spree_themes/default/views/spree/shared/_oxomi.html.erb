@@ -1,0 +1,27 @@
+<div id="modal" style="">
+    <div id="oxomi-overlay" class="oxomi-overlay">
+        <div id="oxomi-overlay-content" class="oxomi-portal">
+            <div class="oxomi-portal-container without-portal-menu">
+            <a href="" id="something2" style="color:green; font-size:20px;">X</a>
+            <div class="universal-search-grid">
+                <div id="universal-search-filter"></div>
+                <div id="universal-search-input"></div>
+                <div id="universal-search-output">Im Moment gibts noch nichts zu sehen...</div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="" id="something" style="color:green;">Click for kataloge</a>
+<script>
+    document.getElementById("something").addEventListener("click", function(e){
+    e.preventDefault();
+    document.getElementById("modal").style.display = "block";
+    })
+
+    document.getElementById("something2").addEventListener("click", function(e){
+    e.preventDefault();
+    document.getElementById("modal").style.display = "none";
+    })
+</script>

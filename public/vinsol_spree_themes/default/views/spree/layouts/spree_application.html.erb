@@ -12,48 +12,11 @@
 
   <body class="<%= body_class %>" id="<%= @body_id || 'default' %>" data-hook="body">
     <%= flash_messages %>
-    <style>
-      #modal{
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(35,35,35,0.9);
-        display: none;
-        z-index: 5000000;
-        box-sizing: border-box;
-      }
-      
-    </style>
-    <div id="modal" style="">
-      <div id="oxomi-overlay" class="oxomi-overlay">
-        <div id="oxomi-overlay-content" class="oxomi-portal">
-          <div class="oxomi-portal-container without-portal-menu">
-            <a href="" id="something2" style="color:green; font-size:20px;">X</a>
-            <div class="universal-search-grid">
-              <div id="universal-search-filter"></div>
-              <div id="universal-search-input"></div>
-              <div id="universal-search-output">Im Moment gibts noch nichts zu sehen...</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <a href="" id="something" style="color:green;">Click for kataloge</a>
-    <script>
-      document.getElementById("something").addEventListener("click", function(e){
-        e.preventDefault();
-        document.getElementById("modal").style.display = "block";
-      })
-      document.getElementById("something2").addEventListener("click", function(e){
-        e.preventDefault();
-        document.getElementById("modal").style.display = "none";
-      })
-    </script>
+
     <%= render partial: 'spree/shared/google_analytics.js' %>
     <%= render partial: 'spree/shared/trackers/segment/initializer.js' %>
     <%= render partial: 'spree/shared/header' %>
+    <%= render partial: 'spree/shared/oxomi' %>
 
     <div class="wrapper">
       <div class="row" data-hook>
