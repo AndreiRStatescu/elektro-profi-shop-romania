@@ -1,0 +1,61 @@
+<!doctype html>
+<!--[if lt IE 7 ]> <html class="ie ie6" lang="<%= I18n.locale %>"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie ie7" lang="<%= I18n.locale %>"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie ie8" lang="<%= I18n.locale %>"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie ie9" lang="<%= I18n.locale %>"> <![endif]-->
+<!--[if gt IE 9]><!--><html lang="<%= I18n.locale %>"><!--<![endif]-->
+  <head data-hook="inside_head">
+    <%= render partial: 'spree/shared/head' %>
+    <%= stylesheet_link_tag 'default.manifest.css' %>
+    <% javascript_include_tag 'https://code.jquery.com/jquery-1.10.2.js' %>
+    <%= stylesheet_link_tag 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' %>
+    <%= javascript_include_tag 'default.manifest.js'%>
+  </head>
+  <body class="<%= body_class %>" id="<%= @body_id || 'default' %>" data-hook="body">
+
+    <%= render partial: 'spree/shared/google_analytics.js' %>
+    <%= render partial: 'spree/shared/header' %>
+
+    <div class=" <%= (@body_id == 'home-page') ? 'container-fluid' : 'container container-helper'  %>">
+      <div class="row main-row" data-hook>
+        <%= breadcrumbs(@taxon) %>
+
+        <%= render partial: 'spree/shared/sidebar' if content_for? :sidebar %>
+
+        <div id="content" class="<%= !content_for?(:sidebar) ? "col-sm-12" : "col-sm-8 col-md-9" %>" data-hook>
+          <%= flash_messages %>
+          <%= yield %>
+        </div>
+
+        <%= yield :templates %>
+      </div>
+    </div>
+        <style>
+  #modal{
+    position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(35,35,35,0.9);
+      display: none;
+      z-index: 5000000;
+      box-sizing: border-box;
+  }
+</style>
+<div id="modal" style="">
+  <div class="universal-search-grid">
+  <div id="universal-search-filter"></div>
+  <div id="universal-search-input"></div>
+  <div id="universal-search-output">Im Moment gibts noch nichts zu sehen...</div>
+  </div>
+</div>
+<a href="" id="something" style="color:green;">Click for kataloge</a>
+  <script>
+    document.getElementById("something").addEventListener("click", function(){
+      document.getElementById("modal").display = "block";
+    })
+  </script>
+    <%= render partial: 'spree/shared/footer' %>
+  </body>
+</html>
