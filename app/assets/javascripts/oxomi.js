@@ -11,9 +11,10 @@ setTimeout(function() {
 // Wir warten bis die OXOMI JavaScript Bibliothek geladen ist...
 function oxomi_ready() {
     // Initialisierung
+    var something = {};
     oxomi.init({
         "portal": "DEMO",
-        "lang": "de",
+        "lang": "en",
         "infoplayItemLookup": function (infoplayData, next) {
             //next(infoplayData);
             
@@ -33,6 +34,8 @@ function oxomi_ready() {
 
                     // Verkaufsdaten
                     artikeldaten['quantity'] = meineDaten['minQuantity'];
+                    artikeldaten['price'] = meineDaten['price'] ;
+                    artikeldaten['currency'] = meineDaten['currency']
                     artikeldaten['quantityUnitName'] = meineDaten['quantityUnitName'];
                     artikeldaten['additionalSections'] = [
                         {'fields': [
@@ -57,26 +60,53 @@ function oxomi_ready() {
                             }
                         ]}
                     ];
-
+                    something = artikeldaten;
                     infoplayData.items.push(artikeldaten);
                     // Nachfolgenden Verarbeitungs-Schritt auslösen
                     next(infoplayData);
                 }}
             );
         },
+        "infoplayMenuTitle" : "Add to basket...",
         "infoplayBasketHandler": function(infoplayData, next) {
             // Hier Warenkorb URL aufrufen und Antwort verarbeiten
-            
-            $.post("/orders/populate",
-            {
-                variant_id: "7",
-                quantity: infoplayData.quantity
-            },
-            function(data, status){
-                alert("Data: " + data + "\nStatus: " + status);
-            });
+           
 
-            //alert(infoplayData.itemNumber + ": " + infoplayData.quantity);
+            $.ajax({
+                type: "POST",
+                url: "/oxomi_products",
+                data: { 
+                    product: {
+                        name: infoplayData.itemNumber,
+                        sku: infoplayData.itemNumber,
+                        description: infoplayData.items[0].shortText,
+                        image_url: infoplayData.items[0].previewImageUrl,
+                        price: infoplayData.items[0].price,
+                        currency: infoplayData.items[0].currency
+                    } 
+                },
+                success(data) {
+                    $.post("/orders/populate",
+                    {
+                        variant_id: data.id,
+                        quantity: infoplayData.quantity
+                    },
+                    function(data, status){
+                        alert("Data: " + data + "\nStatus: " + status);
+                    });
+                },
+                error(data) {
+                    return false;
+                }
+            });
+             /*
+           */
+
+            //alert(infoplayData.items[0].price +": " +infoplayData.items[0].features[0].fields[0].value  + ":  "+ infoplayData.items[0].itemNumber +": " + infoplayData.items[0].shortText+ ": " + infoplayData.items[0].previewImageUrl + ": " + infoplayData.quantity);
+            
+            // a way for calling it but it uses a get request and dont really like this way
+            // Its a redirecting the user
+            //location.href = '/oxomi_products?item='+ infoplayData.itemNumber +'&quantity=' + infoplayData.quantity;
             next(infoplayData);
         },
         "itemDataActivator": function (context) {
